@@ -11,11 +11,15 @@ class showtype:
         self.bgSize = bgSize
         self.bgColor = bgColor
         self.fColor = fColor
-        
-        self.w,self.h = self.bgSize
 
-        self.fadeTime = 5
-        self.fadeInc = 1/self.fadeTime
+        self.w,self.h = self.bgSize
+        
+        self.transTime = 5
+        
+        self.alpha = 1        
+        self.alphaInc = self.alpha / self.transTime 
+        
+        self.fadeInc = 1/self.transTime
         
         self.marginW = self.w/12
         self.marginH = self.h/12
@@ -29,14 +33,10 @@ class showtype:
     def draw(self,fx = None):
         self.bg()
 
-        if fx == "fadeOut":
-            fill(self.fading)
-        else:
-            fill(self.fColor)
-
         font(self.font)
         fontSize(self.fSize)
         openTypeFeatures(calt="True")
+        fill(self.fColor,self.alpha)
         textBox(self.temp,(self.marginW,self.marginH,self.w-self.marginW*2,self.h-self.marginH*2))           
         
     def typewriter(self,temp=""):
@@ -64,13 +64,15 @@ class showtype:
             self.draw()        
 
     def fadeOut(self):
-        self.fading = self.fColor
+        # self.fading = self.fColor
         # cor = self.fColor
         
-        for i in range(self.fadeTime):
+        for i in range(self.transTime):
             newPage(self.w,self.h)
-            self.fading -= self.fadeInc
-
+            fill(self.fColor,self.alpha)
+                  
+            self.alpha -= self.alphaInc
+            print(self.alphaInc,self.alpha)
             self.draw("fadeOut")
         
 
